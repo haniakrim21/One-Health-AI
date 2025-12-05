@@ -247,3 +247,9 @@ scripts/stress-test/reports/
 web/replace_colors.py
 extract_color.py
 web/public/logo/logo.png
+.vercel
+docker/volumes/
+web/.next/
+web/node_modules/
+api/.venv/
+

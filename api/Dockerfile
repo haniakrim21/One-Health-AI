@@ -22,7 +22,7 @@ RUN apt-get update \
     libmpfr-dev libmpc-dev
 
 # Install Python dependencies
-COPY pyproject.toml uv.lock ./
+COPY api/pyproject.toml api/uv.lock ./
 RUN uv sync --locked --no-dev
 
 # production stage

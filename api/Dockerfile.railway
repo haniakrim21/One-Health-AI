@@ -1,0 +1,20 @@
+# Use the existing Dify API base image
+FROM langgenius/dify-api:0.15.3
+
+# Set working directory
+WORKDIR /app/api
+
+# Copy application code
+COPY . /app/api/
+
+# Set environment variables for Railway
+ENV MODE=api \
+    FLASK_APP=app.py \
+    EDITION=SELF_HOSTED \
+    DEPLOY_ENV=PRODUCTION
+
+# Expose port
+EXPOSE 5001
+
+# Start command
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "1", "--worker-class", "gevent", "--timeout", "200", "--preload", "app:app"]

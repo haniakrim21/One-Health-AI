@@ -1,0 +1,7 @@
+.git/
+.venv/
+node_modules/
+web/node_modules/
+web/.next/
+api/.venv/
+docker/volumes/

@@ -1,0 +1,17 @@
+# Use the existing Dify API base image
+FROM langgenius/dify-api:0.15.3
+
+# Set working directory
+WORKDIR /app/api
+
+# Copy application code
+COPY . /app/api/
+
+# Set environment variables for Railway
+ENV MODE=worker \
+    FLASK_APP=app.py \
+    EDITION=SELF_HOSTED \
+    DEPLOY_ENV=PRODUCTION
+
+# Start command for Celery worker
+CMD ["celery", "-A", "app.celery", "worker", "-P", "gevent", "-c", "1", "--loglevel", "INFO", "-Q", "dataset,generation,mail,ops_trace,app_deletion"]

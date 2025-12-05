@@ -139,6 +139,27 @@ const nextConfig = {
       },
     ]
   },
+  async rewrites() {
+    const proxyBackendUrl = process.env.PROXY_BACKEND_URL || 'http://localhost:5001'
+    return [
+      {
+        source: '/console/api/:path*',
+        destination: `${proxyBackendUrl}/console/api/:path*`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `${proxyBackendUrl}/api/:path*`,
+      },
+      {
+        source: '/v1/:path*',
+        destination: `${proxyBackendUrl}/v1/:path*`,
+      },
+      {
+        source: '/files/:path*',
+        destination: `${proxyBackendUrl}/files/:path*`,
+      },
+    ]
+  },
   output: 'standalone',
   compiler: {
     removeConsole: isDev ? false : { exclude: ['warn', 'error'] },
