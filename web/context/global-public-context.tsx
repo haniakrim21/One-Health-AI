@@ -25,10 +25,15 @@ export const useGlobalPublicStore = create<GlobalPublicStore>(set => ({
 const GlobalPublicStoreProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { isPending, data } = useQuery({
+  const { isPending, data, error } = useQuery({
     queryKey: ['systemFeatures'],
     queryFn: getSystemFeatures,
   })
+
+  useEffect(() => {
+    if (error)
+      console.error('Failed to fetch system features:', error)
+  }, [error])
   const { setSystemFeatures, setIsGlobalPending: setIsPending } = useGlobalPublicStore()
   useEffect(() => {
     if (data)

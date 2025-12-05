@@ -98,8 +98,12 @@ const InstallForm = () => {
 
   const handleKeyDown = useCallback(debouncedHandleKeyDown, [debouncedHandleKeyDown])
 
+  const [error, setError] = React.useState<string>('')
+
   useEffect(() => {
+    console.log('InstallForm mounted, checking setup status...')
     fetchSetupStatus().then((res: SetupStatusResponse) => {
+      console.log('Setup status response:', res)
       if (res.step === 'finished') {
         localStorage.setItem('setup_status', 'finished')
         router.push('/signin')
@@ -108,11 +112,27 @@ const InstallForm = () => {
         fetchInitValidateStatus().then((res: InitValidateStatusResponse) => {
           if (res.status === 'not_started')
             router.push('/init')
+        }).catch(() => {
+          // Ignore init validate error, it might not exist
         })
       }
       setLoading(false)
+    }).catch((err) => {
+      console.error('Setup status check failed:', err)
+      setError(`Setup check failed: ${err.message || 'Unknown error'}`)
+      setLoading(false)
     })
   }, [])
+
+  if (error) {
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center">
+        <div className="mb-4 font-bold text-red-500">Error Loading Install Page</div>
+        <div className="text-gray-700">{error}</div>
+        <Button className="mt-4" onClick={() => window.location.reload()}>Retry</Button>
+      </div>
+    )
+  }
 
   return (
     loading
