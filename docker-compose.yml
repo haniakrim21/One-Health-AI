@@ -56,8 +56,11 @@ services:
       context: web
       dockerfile: Dockerfile.railway
     environment:
-      NEXT_PUBLIC_API_PREFIX: ${NEXT_PUBLIC_API_PREFIX}
-      NEXT_PUBLIC_PUBLIC_API_PREFIX: ${NEXT_PUBLIC_PUBLIC_API_PREFIX}
+      # Use relative paths so the browser talks to the frontend server
+      NEXT_PUBLIC_API_PREFIX: /console/api
+      NEXT_PUBLIC_PUBLIC_API_PREFIX: /api
+      # Frontend server proxies to the internal backend service
+      PROXY_BACKEND_URL: http://api:5001
       NEXT_PUBLIC_EDITION: SELF_HOSTED
       NEXT_PUBLIC_DEPLOY_ENV: PRODUCTION
     ports:
