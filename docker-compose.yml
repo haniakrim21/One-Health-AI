@@ -8,21 +8,21 @@ services:
       MODE: api
       EDITION: SELF_HOSTED
       DEPLOY_ENV: PRODUCTION
-      CONSOLE_API_URL: ${CONSOLE_API_URL}
-      CONSOLE_WEB_URL: ${CONSOLE_WEB_URL}
-      SERVICE_API_URL: ${SERVICE_API_URL}
-      APP_API_URL: ${APP_API_URL}
-      APP_WEB_URL: ${APP_WEB_URL}
-      DB_USERNAME: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      CONSOLE_API_URL: ${CONSOLE_API_URL:-http://localhost:5001}
+      CONSOLE_WEB_URL: ${CONSOLE_WEB_URL:-http://localhost:3000}
+      SERVICE_API_URL: ${SERVICE_API_URL:-http://localhost:5001}
+      APP_API_URL: ${APP_API_URL:-http://localhost:5001}
+      APP_WEB_URL: ${APP_WEB_URL:-http://localhost:3000}
+      DB_USERNAME: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-difyai123456}
       DB_HOST: db
       DB_PORT: 5432
-      DB_DATABASE: ${POSTGRES_DB}
+      DB_DATABASE: ${POSTGRES_DB:-dify}
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
-      SECRET_KEY: ${SECRET_KEY}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-difyai123456}
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD:-difyai123456}@redis:6379/1
+      SECRET_KEY: ${SECRET_KEY:-sk-dify-secret-key-random-123456}
     ports:
       - "5001:5001"
     depends_on:
@@ -37,16 +37,16 @@ services:
       MODE: worker
       EDITION: SELF_HOSTED
       DEPLOY_ENV: PRODUCTION
-      DB_USERNAME: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_USERNAME: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-difyai123456}
       DB_HOST: db
       DB_PORT: 5432
-      DB_DATABASE: ${POSTGRES_DB}
+      DB_DATABASE: ${POSTGRES_DB:-dify}
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
-      SECRET_KEY: ${SECRET_KEY}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-difyai123456}
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD:-difyai123456}@redis:6379/1
+      SECRET_KEY: ${SECRET_KEY:-sk-dify-secret-key-random-123456}
     depends_on:
       - db
       - redis
