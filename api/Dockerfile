@@ -16,10 +16,10 @@ FROM base AS packages
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-          # basic environment
-          g++ \
-          # for building gmpy2
-          libmpfr-dev libmpc-dev
+    # basic environment
+    g++ \
+    # for building gmpy2
+    libmpfr-dev libmpc-dev
 
 # Install Python dependencies
 COPY pyproject.toml uv.lock ./
@@ -58,18 +58,18 @@ RUN \
     apt-get update \
     # Install dependencies
     && apt-get install -y --no-install-recommends \
-        # basic environment
-        curl nodejs \
-        # for gmpy2 \
-        libgmp-dev libmpfr-dev libmpc-dev \
-        # For Security
-        expat libldap-2.5-0=2.5.13+dfsg-5 perl libsqlite3-0=3.40.1-2+deb12u2 zlib1g=1:1.2.13.dfsg-1 \
-        # install fonts to support the use of tools like pypdfium2
-        fonts-noto-cjk \
-        # install a package to improve the accuracy of guessing mime type and file extension
-        media-types \
-        # install libmagic to support the use of python-magic guess MIMETYPE
-        libmagic1 \
+    # basic environment
+    curl nodejs \
+    # for gmpy2 \
+    libgmp-dev libmpfr-dev libmpc-dev \
+    # For Security
+    expat libldap-2.5-0=2.5.13+dfsg-5 perl libsqlite3-0=3.40.1-2+deb12u2 zlib1g=1:1.2.13.dfsg-1 \
+    # install fonts to support the use of tools like pypdfium2
+    fonts-noto-cjk \
+    # install a package to improve the accuracy of guessing mime type and file extension
+    media-types \
+    # install libmagic to support the use of python-magic guess MIMETYPE
+    libmagic1 \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
@@ -88,10 +88,10 @@ RUN python -c "import tiktoken; tiktoken.encoding_for_model('gpt2')" \
     && chown -R dify:dify ${TIKTOKEN_CACHE_DIR}
 
 # Copy source code
-COPY --chown=dify:dify . /app/api/
+COPY --chown=dify:dify api/ /app/api/
 
 # Prepare entrypoint script
-COPY --chown=dify:dify --chmod=755 docker/entrypoint.sh /entrypoint.sh
+COPY --chown=dify:dify --chmod=755 api/docker/entrypoint.sh /entrypoint.sh
 
 
 ARG COMMIT_SHA
